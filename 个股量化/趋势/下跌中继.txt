@@ -1,0 +1,55 @@
+大牛 :   牛熊.大牛     NODRAW;
+熊   :   牛熊.熊      NODRAW;
+
+
+
+{ ------------------------- }
+MA100_多 :=  MA多(100);
+
+
+
+
+
+{ ----------------------------------------------------------------------------------- }
+CON_1 :   熊                            NODRAW;
+
+CON_2 :   COUNT(大牛, 100)=0             NODRAW;
+
+CON_3 :   LLV(L,20) != LLV(L,150)       NODRAW;
+
+CON_4 :   EXIST(MA100_多, 50)     ||     (EXIST(MA100_多, 100)   AND   EXIST(MA多(50), 10))       NODRAW;
+
+
+
+
+
+下跌中继 :   CON_1 AND CON_2 AND CON_3 AND CON_4       COLORBLUE;
+
+
+
+
+
+
+
+{ ---------------------------------------------------------------------------------------------------------------------- 量化 FUN2（可用） }
+{
+熊市中继 :   牛熊状态.熊市中继              NODRAW;
+
+
+
+CON_1 :   熊                            NODRAW;
+
+CON_2 :   COUNT(牛, 100)=0              NODRAW;
+
+CON_3 :   LLV(L,20) != LLV(L,150)       NODRAW;
+
+CON_4 :   EXIST(熊市中继,   100)         NODRAW;
+
+CON_5 :   EXIST(MA100_多,    50)     ||     (EXIST(MA100_多, 100)   AND   EXIST(MA多(50), 10))       NODRAW;
+
+
+
+
+
+下跌中继 :   CON_1 AND CON_2 AND CON_3 AND CON_4 AND CON_5       COLORBLUE;
+};

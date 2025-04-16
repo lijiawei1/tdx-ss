@@ -1,0 +1,155 @@
+{ 时间换空间 }
+
+{ 空间换时间 }
+
+{ 量价 -> 价格 + MA50占比/... }
+
+
+
+{ -------------------------------------------------------------------------------}
+牛市 :=   大盘量化.牛     NODRAW;
+熊市 :=   NOT(牛市)       NODRAW;
+
+
+
+MA50占比      :=   大盘量化.MA50占比         NODRAW;
+月多占比      :=   大盘量化.月多占比         NODRAW;
+板块月多占比  :=   板块量化.月多占比         NODRAW;
+新高新低_差值 :=   新高_新低.差值            NODRAW;
+右侧S_占比    :=   板块量化.右侧S_占比       NODRAW;
+
+
+
+
+
+
+
+{ ---------------------------------------------------------------------------------------------------------------------------}
+CON_冰1 :   MA50占比      < 25         COLORCYAN NODRAW;
+
+CON_冰2 :   月多占比      < 15         COLORCYAN NODRAW;
+
+CON_冰3 :   板块月多占比  < 10         COLORCYAN NODRAW;
+
+CON_冰4 :   新高新低_差值 < -150       COLORCYAN NODRAW;
+
+CON_冰5 :   (  右侧S_占比 > 90   )     ||
+            (  右侧S_占比 > 85     AND     EXIST(右侧S_占比>95, 20)  )       COLORCYAN NODRAW;
+
+
+
+
+
+CON_冰NUM    :    CON_冰1 + CON_冰2 + CON_冰3 + CON_冰4 + CON_冰5       COLORWHITE NODRAW;
+
+CON_极冰_NUM :    (MA50占比<5) + (月多占比<5) + (板块月多占比<2) + (新高新低_差值<-2000) + (右侧S_占比>=95)       COLORCYAN NODRAW;
+
+
+
+
+
+{ --------------------------------------------------------------------------- 时间/空间 }
+
+均线大空头     :   均线大空头.均线大空头     COLORCYAN NODRAW;   { 大空头   / 单边下跌   ->   时间（5~6个月  无限阴跌）/ 空间（暴跌+急跌）  ->   极值 }
+
+下跌中继       :   下跌中继.下跌中继         COLORBLUE NODRAW;   { 下跌中继 / 震荡市     ->   时空 均较浅（蜻蜓点水）              ->   不会触及 极值 }
+
+
+
+
+
+大盘_调整天数2 :   "880003$CON_中期调整2.调整天数2"    COLORCYAN NODRAW; { 时 }
+大盘_调整幅度2 :   "880003$CON_中期调整2.调整幅度2"    COLORCYAN NODRAW; { 空 }
+
+
+新低天数       :   新高_新低.新低天数     COLORCYAN NODRAW; { 时 }
+新低占比       :   新高_新低.新低占比     COLORCYAN NODRAW; { 空 }
+
+
+
+
+
+
+
+{ ----- 大空头  ->  必须 极值（时/空 任一极值） }
+
+CON_熊_时换空 :=   均线大空头   AND   EVERY(新高新低_差值<0, 10)     AND     (大盘_调整天数2 >  90   ||   新低天数>65)       COLORCYAN NODRAW;
+
+CON_熊_空换时 :=   {均线大空头  AND}  EVERY(新高新低_差值<0,  3)     AND     (大盘_调整幅度2 < -30   ||   新低占比>50)       COLORCYAN NODRAW;   { 均线大空头（DEL）   20150826-20160229 }
+
+
+
+X1 : CON_熊_时换空   NODRAW;
+X2 : CON_熊_空换时   NODRAW;
+
+
+CON_熊_时空_或  :   CON_熊_时换空   ||    CON_熊_空换时       COLORCYAN NODRAW;
+CON_熊_时空_加  :   CON_熊_时换空   AND   CON_熊_空换时       COLORCYAN NODRAW;
+
+
+
+
+
+{ ----- 震荡市/下跌中继  ->  蜻蜓点水 }
+
+CON_下跌中继  :=   下跌中继        AND   大盘_调整天数2>=15 AND 新低天数>=5;
+
+CON_下跌      :=   NOT(均线大空头) AND   大盘_调整天数2>=15 AND 新低天数>=5;
+
+
+
+
+
+{ ------------------------------------------------------------------- DEL（2023-04-26） }
+{
+中期_DAY   :   BARSLAST(MA50占比>75)     NODRAW;
+CON_冰NUM2 :   ABS(COUNT(CON_冰1,中期_DAY)>0)  +  ABS(COUNT(CON_冰2,中期_DAY)>0)  +  ABS(COUNT(CON_冰3,中期_DAY)>0)  +  ABS(COUNT(CON_冰4,中期_DAY)>0)  +  ABS(COUNT(CON_冰5,中期_DAY)>0)     NODRAW;
+
+
+CON_熊下跌中继2 :    熊市 AND 下跌中继       AND     CON_下跌中继    AND     CON_冰NUM2>=4 AND   CON_冰NUM>=3       COLORBLUE;
+}
+
+
+{ ------------------------------------------------------------------- }
+CON_熊_下跌中继 :    熊市 AND 下跌中继        AND     CON_下跌中继     AND   CON_冰NUM>=3   AND   CON_极冰_NUM>=1       COLORBLUE;
+
+CON_熊_下跌     :    熊市 AND NOT(下跌中继)   AND     CON_下跌         AND   CON_冰NUM>=4   AND   CON_极冰_NUM>=3       COLORWHITE;   {DEL}
+
+
+CON_熊_大空头   :    熊市                     AND     CON_熊_时空_或   AND   COUNT(CON_熊_时空_加,   新低天数)=0
+
+                                                                       AND   (CON_冰NUM>=5   ||   CON_极冰_NUM>=4)
+
+
+                                                                       AND   (  (CON_熊_时换空 AND CON_极冰_NUM>=1   AND   COUNT(板块月多占比<5,  40)>=15)   ||   (CON_熊_空换时 AND CON_极冰_NUM>=2)  )     COLORCYAN;
+
+
+
+CON_熊_极限空头 :    熊市 AND 均线大空头      AND     CON_熊_时空_加   AND   CON_冰NUM>=5   AND   CON_极冰_NUM>=4       COLORCYAN;
+
+
+
+
+
+
+
+{ --------------------------------------------------------------------------------------------------------------------------- }
+熊市_中期底 :   CON_熊_下跌中继   ||   CON_熊_下跌   ||   CON_熊_大空头   ||   CON_熊_极限空头       COLORCYAN NODRAW;
+
+
+
+
+
+
+
+
+
+
+{ --------------------------------------------------------------------------------------------------------------------------- }
+熊底_STATUS :
+
+IF(CON_熊_大空头 || CON_熊_极限空头,          3,          {COLORCYAN }
+IF(CON_熊_下跌中继               ,          2,          {COLORBLUE }
+IF(CON_熊_下跌                  ,          1,          {COLORWHITE}
+
+0)))       COLORWHITE NODRAW;
