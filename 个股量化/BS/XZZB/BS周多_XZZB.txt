@@ -22,7 +22,7 @@ CON_大多头 :=  周多;
 
 
 {  --------------------------------------------------  }
-涨 :   XZZB涨   AND   CON_大多头  ,COLORRED   NODRAW;
+涨 :   TOOLS.XZZB涨   AND   CON_大多头  ,COLORRED   NODRAW;
 
 跌 :   涨=0                       ,COLORGREEN NODRAW;
 

@@ -118,6 +118,9 @@ N累涨MAX     :  HHV(N累计涨幅  ,N)         , COLORFF00FF NODRAW;
 
 {  ----------  止盈/止损 }
 
+MA5   := MA(C, 5);
+MA10  := MA(C, 10);
+
 MA5_MA10_死叉     :=  REF(MA5,1)>REF(MA10,1)  AND  MA5<=MA10;
 下穿MA10          :=  REF(C  ,1)>REF(MA10,1)  AND  C  <=MA10;
 回撤_破MA5        :=  BH_MAX-买点涨幅>=10     AND  C  < MA5 ;

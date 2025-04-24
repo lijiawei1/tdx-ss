@@ -1,0 +1,15 @@
+{ --- 参数定义 --- }
+{N:=20;          均线周期，默认20日 }
+THRESHOLD:=0.15; { 波动阈值（单位：百分比）}
+
+{ --- 计算均线 --- }
+MA20 := MA(C, N);
+
+{ --- 走平条件判断 --- }
+MA_FLAT := 
+    ABS(MA20 - REF(MA20,1))/REF(MA20,1)*100 < THRESHOLD  { 单日波动小于阈值 }
+    AND 
+    ABS(MA20 - REF(MA20,2))/REF(MA20,2)*100 < THRESHOLD; { 连续两日波动稳定 }
+
+{ --- 可视化标记 --- }
+MA走平 : MA_FLAT COLORWHITE LINETHICK2;
