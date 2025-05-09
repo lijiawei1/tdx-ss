@@ -1,9 +1,9 @@
 月多数量 :   大盘量化.月多数量      COLORWHITE NODRAW;
-基北数量 :   大盘量化.基北数量      COLORWHITE NODRAW;
+全A数量 :   大盘量化.全A数量      COLORWHITE NODRAW;
 
 
 
-月多占比 :   月多数量 / 基北数量 * 100     COLORGREEN  NODRAW;
+月多占比 :   月多数量 / 全A数量 * 100     COLORGREEN  NODRAW;
 { ------------------------------------------------------------------------------- }
 板块月多数量 :   板块量化.板块月多_NUM     COLORYELLOW   NODRAW;
     板块数量 :   板块量化.ALL板块_NUM      COLORYELLOW   NODRAW;

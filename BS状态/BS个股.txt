@@ -39,8 +39,10 @@ MA250:= IF(MA(C,250)=DRAWNULL,  0,  MA(C,250));
 
 
 SSF空       := SSF空.SSF空;
-下SSF       := 下SSF.下SSF;
+{下SSF       := 下SSF.下SSF;}  { 原来实现 }
 
+上SSF       := SSF1.上SSF;
+下SSF       := SSF1.下SSF;
 
 
 
