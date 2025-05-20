@@ -225,7 +225,7 @@ IF(个股,   BS个股,
 
 { ---------------------------------------- 倍/危 （必须融合：日+周+月  [ 任一周期 满足 -> 全周期 满足 ] ）------------------------------------------ }
 {
-倍危_STATUS :  IF(EXTDATA_USER(41,0)!=DRAWNULL,   EXTDATA_USER(41,0),   EXTDATA_USER(101,2));
+倍危_STATUS :   IF(EXTDATA_USER(41,0)!=DRAWNULL,   EXTDATA_USER(41,0),   EXTDATA_USER(101,2));
 
 倍 :  倍危_STATUS = 1   ||   倍危_STATUS = 2;
 危 :  倍危_STATUS = 2;

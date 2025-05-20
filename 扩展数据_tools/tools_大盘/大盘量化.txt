@@ -1,3 +1,8 @@
+{
+999999$：引用上证指数的成分股数据。
+TOOLS_大盘.上MA50数量：调用自定义工具指标TOOLS_大盘中的变量，计算满足价格>MA50的股票数量。
+}
+
 上MA50数量 :   "999999$TOOLS_大盘.上MA50数量"     COLORWHITE NODRAW;
    全A数量 :   "999999$TOOLS_大盘.全A数量"        COLORWHITE NODRAW;
 

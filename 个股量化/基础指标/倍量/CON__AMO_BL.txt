@@ -8,15 +8,15 @@ RPS250 :=  TOOLS_RPS.RPS250;
 
 { ----------------------------------------------------------------------------------------------- AMO_BL  }
 
-AMO_MA5    :=  MA(AMO, 5)   NODRAW;
-AMO_MA10   :=  MA(AMO,10)   NODRAW;
-涨停       :=  C/REF(C,1)>=1.098 AND C=H;
-AMO_VAL    :=  IF(涨停, MAX(AMO, AMO_MA10), AMO)   NODRAW;
+AMO_MA5    :=  MA(AMO, 5)   NODRAW;                           {5日成交额均线}
+AMO_MA10   :=  MA(AMO,10)   NODRAW;                           {10日成交额均线}
+涨停       :=  C/REF(C,1)>=1.098 AND C=H;                      {定义涨停条件（涨幅≥9.8%且收盘价为最高价）}
+AMO_VAL    :=  IF(涨停, MAX(AMO, AMO_MA10), AMO)   NODRAW;     {涨停时取成交额与10日均线的较大值}
 
 RPS_DAY    :=  IF(RPS250=0,  BARSLAST(RPS50<50),  BARSLAST(ABS(RPS50<50)+ABS(RPS120<50)+ABS(RPS250<50) >=2))   NODRAW;   {上次 RPS双线<50  距今天数}
-AMO_起涨前 :=  REF(SUM(AMO_MA10,10)/10, RPS_DAY)  NODRAW;
+AMO_起涨前 :=  REF(SUM(AMO_MA10,10)/10, RPS_DAY)  NODRAW;       {取起涨点前10日的AMO均线均值}
 
 
 
-AMO_BL     :   AMO_VAL / AMO_起涨前        COLORMAGENTA;
-AMO_BL2    :   AMO_VAL / REF(AMO_MA10,10)  COLORRED;      {  当日成交额  /  10日前的  MA10_成交额  };
+AMO_BL     :   AMO_VAL / AMO_起涨前        COLORMAGENTA;    {当前成交额与起涨前基准的比值}
+AMO_BL2    :   AMO_VAL / REF(AMO_MA10,10)  COLORRED;       {当日成交额 / 10日前的 MA10_成交额  };

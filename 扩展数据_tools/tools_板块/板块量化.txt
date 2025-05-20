@@ -14,12 +14,10 @@
 
 
 { ------------------------------------------------------------------------------- }
-ALL板块_NUM_ :=   "880515$TOOLS_板块.ALL板块_NUM "     COLORWHITE   NODRAW;
+{ALL板块_NUM_ :=   "880515$TOOLS_板块.ALL板块_NUM "     COLORWHITE   NODRAW;}
+{ALL板块_NUM  :   MAX(左侧试仓_NUM + 左侧买_NUM + 右侧买_NUM + 强势卖出_NUM + 左侧卖_NUM + 右侧卖_NUM,     100)       COLORWHITE NODRAW;       {  ALL_NUM   ->  应该 以此为准  }
 
-
-ALL板块_NUM  :   MAX(左侧试仓_NUM + 左侧买_NUM + 右侧买_NUM + 强势卖出_NUM + 左侧卖_NUM + 右侧卖_NUM,     100)       COLORWHITE NODRAW;       {  ALL_NUM   ->  应该 以此为准  }
-
-
+ALL板块_NUM :=   410;
 
 
 
@@ -37,7 +35,7 @@ ALL板块_NUM  :   MAX(左侧试仓_NUM + 左侧买_NUM + 右侧买_NUM + 强势
 
 
 { ------------------------------------------------------------------------------- }
-板块月多_NUM :   "880515$TOOLS_板块.月多_NUM "           COLORYELLOW  NODRAW;
+板块月多_NUM :   "880515$TOOLS_板块.月多_NUM"           COLORYELLOW  NODRAW;
 
 月多占比     :   板块月多_NUM / ALL板块_NUM   * 100      COLORYELLOW;
 

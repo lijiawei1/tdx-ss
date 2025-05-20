@@ -9,6 +9,7 @@ X_5 :=  X_4*X_4;
 
 
 SSF1 :   EMA(DMA(C,X_5),   2);
+SSFMA红 : SSF1>=REF(SSF1,1);
 
 
 
