@@ -2,12 +2,12 @@
 
 
 左侧试仓_NUM :   "880515$TOOLS_板块.左侧试仓_NUM"     COLORWHITE   NODRAW;
-  左侧买_NUM :   "880515$TOOLS_板块.左侧买_NUM  "     COLORGREEN   NODRAW;
-  右侧买_NUM :   "880515$TOOLS_板块.右侧买_NUM  "     COLORMAGENTA NODRAW;
+  左侧买_NUM :   "880515$TOOLS_板块.左侧买_NUM"     COLORGREEN   NODRAW;
+  右侧买_NUM :   "880515$TOOLS_板块.右侧买_NUM"     COLORMAGENTA NODRAW;
 
 强势卖出_NUM :   "880515$TOOLS_板块.强势卖出_NUM"     COLORRED     NODRAW;
-  左侧卖_NUM :   "880515$TOOLS_板块.左侧卖_NUM  "     COLORBLUE    NODRAW;
-  右侧卖_NUM :   "880515$TOOLS_板块.右侧卖_NUM  "     COLORCYAN    NODRAW;
+  左侧卖_NUM :   "880515$TOOLS_板块.左侧卖_NUM"     COLORBLUE    NODRAW;
+  右侧卖_NUM :   "880515$TOOLS_板块.右侧卖_NUM"     COLORCYAN    NODRAW;
 
 
 
