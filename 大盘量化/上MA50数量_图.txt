@@ -1,2 +1,0 @@
-上MA50数量 : TOOLS_大盘.上MA50数量;
-月多数量 :   大盘量化.月多数量      COLORWHITE NODRAW;
