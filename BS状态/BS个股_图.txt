@@ -389,7 +389,7 @@ SSF多定义：
 
 个股中期高位   :=  中期涨幅N(20)>=35 AND 中期天数N(20)>=20;
 
-高位 :      大盘MA50高位 || 个股中期高位   NODRAW;
+高位 :=      大盘MA50高位 || 个股中期高位   NODRAW;
 
 
 { -----------------------------------------------------
@@ -400,14 +400,14 @@ SSF多定义：
     技术逻辑：5日内出现3次以上高位信号（大盘MA50≥65%或个股20日涨幅≥35%），配合MA多头排列（5/10/20日均线递增）及极端涨幅（75%+）
     优化建议：加入网页7的波动率验证：ATR(14)/C>8%，过滤虚假突破
 ----------------------------------------------------- }
-强势卖出1 :  COUNT(高位  ,   5)           AND   MA多头     AND   中期涨幅>=75                         COLORRED NODRAW;       { 股灾   - （反弹）到顶 }
+强势卖出1 :=  COUNT(高位  ,   5)           AND   MA多头     AND   中期涨幅>=75                         COLORRED NODRAW;       { 股灾   - （反弹）到顶 }
 
 { -----------------------------------------------------
 2.震荡行情顶
     创新点：引入持续时间验证（≥20交易日），避免短期冲高误判，参考网页5的"持续时间+涨幅"双因子模型
     参数说明：75%涨幅阈值对应网页4的"超买临界值"，适用于2025年注册制下波动率特征
 ----------------------------------------------------- }
-强势卖出2 :                                     MA多头     AND   中期涨幅>=75 AND 中期天数_20>=20     COLORRED NODRAW;       { 震荡   -         到顶 }
+强势卖出2 :=                                     MA多头     AND   中期涨幅>=75 AND 中期天数_20>=20     COLORRED NODRAW;       { 震荡   -         到顶 }
 
 { -----------------------------------------------------
 3.牛市中期顶
@@ -416,13 +416,13 @@ SSF多定义：
     MA大多头：50/100/200日均线多头排列
     风控机制：需配合网页2的"指数-个股联动系数"：CORR(指数涨幅,个股涨幅)>0.7
 ----------------------------------------------------- }
-强势卖出3 :  COUNT(大盘MA50大高位,   5)   AND   MA大多头   AND   中期涨幅>=75                         COLORRED NODRAW;       { 牛市   - （中期）到顶 }
+强势卖出3 :=  COUNT(大盘MA50大高位,   5)   AND   MA大多头   AND   中期涨幅>=75                         COLORRED NODRAW;       { 牛市   - （中期）到顶 }
 { -----------------------------------------------------
 4.动量股顶
     特殊设计：针对机构抱团股特性，将涨幅阈值提升至85%（参考网页4的动量股统计规律）
     补充验证：建议加入网页5的成交量背离检测：VOL<MA(VOL,20) AND C>REF(C,1)
 ----------------------------------------------------- }
-强势卖出4 :                                     MA大多头   AND   中期涨幅>=85                         COLORRED NODRAW;       { 动量股 - （中期）到顶 }
+强势卖出4 :=                                     MA大多头   AND   中期涨幅>=85                         COLORRED NODRAW;       { 动量股 - （中期）到顶 }
 { -----------------------------------------------------
 5.顶部形态确认
     形态定义：
@@ -430,7 +430,7 @@ SSF多定义：
         20日涨幅≥65%：提前预警加速赶顶风险
     组合验证：需满足网页7的"三高原则"：高价、高换手（≥8%）、高波动（振幅≥7%）
 ----------------------------------------------------- }
-强势卖出5 :  COUNT(上影大阴 AND 中期涨幅_20>=65,   10)   AND   MA大多头   AND   中期涨幅>=75    COLORRED NODRAW;       { 动量股 - （中期）上影/大阴  到顶 }
+强势卖出5 :=  COUNT(上影大阴 AND 中期涨幅_20>=65,   10)   AND   MA大多头   AND   中期涨幅>=75    COLORRED NODRAW;       { 动量股 - （中期）上影/大阴  到顶 }
 
 { -----------------------------------------------------
 优化建议：
@@ -473,13 +473,13 @@ SSF多定义：
 
 1.股灾反弹顶转空
 ----------------------------------------------------- }
-左侧卖1 :  COUNT(高位,  10)             AND     COUNT(MA多头, 20)   AND   MA转空     COLORBLUE NODRAW;       { 股灾   - （反弹）到顶  转空 }
-左侧卖2 :  MA空头                                                                    COLORBLUE NODRAW;       { 震荡   -               转空 }
+左侧卖1 :=  COUNT(高位,  10)             AND     COUNT(MA多头, 20)   AND   MA转空     COLORBLUE NODRAW;       { 股灾   - （反弹）到顶  转空 }
+左侧卖2 :=  MA空头                                                                    COLORBLUE NODRAW;       { 震荡   -               转空 }
 
 { -----------------------------------------------------
 补充头肩顶确认
 ----------------------------------------------------- }
-左侧卖3 :  COUNT(强势卖出,  10)         AND     MA空_NUM >=1                         COLORBLUE NODRAW;       { 个股高位（倍/危）  -   转空 }
+左侧卖3 :=  COUNT(强势卖出,  10)         AND     MA空_NUM >=1                         COLORBLUE NODRAW;       { 个股高位（倍/危）  -   转空 }
 
 
 { -----------------------------------------------------
@@ -496,26 +496,26 @@ SSF多定义：
 { -----------------------------------------------------
 没什么好说的，就怕信号太慢
 ----------------------------------------------------- }
-右侧卖1 :  COUNT(高位,  15)   AND
+右侧卖1 :=  COUNT(高位,  15)   AND
            (
 		        (  COUNT(MA多头, 25)   AND   MA空(20)  )
 	       ||   (  COUNT(MA多头, 30)   AND   MA空头    )
            )  COLORCYAN NODRAW;                                                                                  { 股灾 - 到顶 转大空头   }
 
 
-右侧卖2 :    MA大空头  ||  MA大空头2 COLORCYAN NODRAW;                                                          { 震荡 -        大空头   }
+右侧卖2 :=    MA大空头  ||  MA大空头2 COLORCYAN NODRAW;                                                          { 震荡 -        大空头   }
 
 { -----------------------------------------------------
 强度指标应用
 阶段理论
 ----------------------------------------------------- }
-右侧卖3 :    NOT(  CON_一二阶段.一二阶段 || 月多 || RPS一线红(85) || RPS双线红(70) || RPS三线红(60)  ) COLORCYAN NODRAW;     {  四阶段 - 看一眼都多余 }
+右侧卖3 :=    NOT(  CON_一二阶段.一二阶段 || 月多 || RPS一线红(85) || RPS双线红(70) || RPS三线红(60)  ) COLORCYAN NODRAW;     {  四阶段 - 看一眼都多余 }
 
 { -----------------------------------------------------
 符合信号验证：10日内积累3次以上高危信号（如中期涨幅≥85%+量价背离），配合MA空头次数≥1次，形成双重确认机制
 形态补充：MACD死叉：需结合网页12的卖三函数检测：CLOSE<动态市盈率阈值 AND MACD死叉
 ----------------------------------------------------- }
-右侧卖4 :    COUNT(左侧卖3,  10)        AND     MA空_NUM >=1 AND 下MA_NUM>=2           COLORCYAN NODRAW;       { 个股高位（倍/危）  -   转大空头 }
+右侧卖4 :=    COUNT(左侧卖3,  10)        AND     MA空_NUM >=1 AND 下MA_NUM>=2           COLORCYAN NODRAW;       { 个股高位（倍/危）  -   转大空头 }
 
 { -----------------------------------------------------
 #####  需要进行回测 实证数据与参数校准
@@ -585,8 +585,8 @@ MA20_MA50 := MA20/MA50   COLORMAGENTA NODRAW;
 该状态系统通过严谨的条件分级与特殊场景处理，将网页[1][3][5][7]的BS指标理论转化为可执行的交易决策。实际应用中需注意：1）科创板个股需单独设置状态覆盖参数；2）季报披露期需人工复核财务数据；3）建议配合网页5的"三线共振"主图指标进行可视化验证
 
 ----------------------------------------------------- }
-BS状态_0  :  IF(右侧卖, 6,     IF(左侧卖, 5,     IF(强势卖出, 4,     IF(右侧买, 3,     IF(左侧买, 2,     IF(左侧试仓, 1,   0))))))       COLORWHITE   NODRAW;
-BS状态_1  :  IF(BS状态_0>0,    BS状态_0,         REF(BS状态_0,  BARSLAST(BS状态_0 > 0))   )                                              COLORMAGENTA NODRAW;
+BS状态_0  :=  IF(右侧卖, 6,     IF(左侧卖, 5,     IF(强势卖出, 4,     IF(右侧买, 3,     IF(左侧买, 2,     IF(左侧试仓, 1,   0))))))       COLORWHITE   NODRAW;
+BS状态_1  :=  IF(BS状态_0>0,    BS状态_0,         REF(BS状态_0,  BARSLAST(BS状态_0 > 0))   )                                              COLORMAGENTA NODRAW;
 
 BS状态    :  IF(COUNT(BS状态_1=6, 3)  AND  BS状态_1=5,   6,
              IF(REF(BS状态_1,1)=3     AND  BS状态_1<3,   3,
@@ -646,34 +646,39 @@ NOTEXT_BS状态_5 :  IF(BS状态=5,  BS状态,  DRAWNULL)     COLORBLUE;
 NOTEXT_BS状态_6 :  IF(BS状态=6,  BS状态,  DRAWNULL)     COLORCYAN;
 
 
-NOTEXT_1 :=  10, COLORWHITE  LINETHICK1;
-NOTEXT_左侧试仓1 : IF(左侧试仓1, 13, DRAWNULL)     COLORWHITE;
-NOTEXT_左侧试仓2 : IF(左侧试仓2, 17, DRAWNULL)     COLORWHITE;
+NOTEXT_1 :  10 COLORWHITE  LINETHICK1;
+_左侧试仓1 : IF(左侧试仓1=1, 13, DRAWNULL)     COLORGREEN;
+_左侧试仓2 : IF(左侧试仓2=1, 17, DRAWNULL)     COLORMAGENTA;
 
-NOTEXT_2 :=  20, COLORGREEN  LINETHICK1;
-NOTEXT_左侧买1 : IF(左侧买1, 21, DRAWNULL)     COLORGREEN;
-NOTEXT_左侧买2 : IF(左侧买2, 24, DRAWNULL)     COLORGREEN;
-NOTEXT_左侧买3 : IF(左侧买3, 27, DRAWNULL)     COLORGREEN;
+NOTEXT_2 :  20 COLORGREEN  LINETHICK2;
+_左侧买1 : IF(左侧买1, 21, DRAWNULL)     COLORGREEN;
+_左侧买2 : IF(左侧买2, 24, DRAWNULL)     COLORMAGENTA;
+_左侧买3 : IF(左侧买3, 27, DRAWNULL)     COLORRED;
 
-NOTEXT_3 :=  30, COLORMAGENTA  LINETHICK1;
-NOTEXT_右侧买1 : IF(左侧买1, 31, DRAWNULL)     COLORMAGENTA;
-NOTEXT_右侧买2 : IF(左侧买2, 32, DRAWNULL)     COLORMAGENTA;
-NOTEXT_右侧买3 : IF(左侧买3, 33, DRAWNULL)     COLORMAGENTA;
+NOTEXT_3 :  30, COLORMAGENTA  LINETHICK1;
+_右侧买1 : IF(右侧买1, 31, DRAWNULL)     COLORGREEN;    { 股灾买点 }
+_右侧买2 : IF(右侧买2, 32, DRAWNULL)     COLORMAGENTA;  { 震荡买点 }
+_右侧买3 : IF(右侧买3, 33, DRAWNULL)     COLORMAGENTA;  { 震荡突破 }
+_右侧买4 : IF(右侧买4, 34, DRAWNULL)     COLORRED;      { 趋势买点 }
+_右侧买5 : IF(右侧买5, 35, DRAWNULL)     COLORYELLOW;   { 长期调整突破 }
+_右侧买6 : IF(右侧买6, 36, DRAWNULL)     COLORCYAN;     { 月线启动 }
 
-NOTEXT_4 :=  40, COLORRED  LINETHICK1;
-NOTEXT_强势卖出1 : IF(强势卖出1, 41, DRAWNULL)     COLORRED;
-NOTEXT_强势卖出2 : IF(强势卖出2, 42, DRAWNULL)     COLORRED;
-NOTEXT_强势卖出3 : IF(强势卖出3, 43, DRAWNULL)     COLORRED;
-NOTEXT_强势卖出4 : IF(强势卖出4, 44, DRAWNULL)     COLORRED;
-NOTEXT_强势卖出5 : IF(强势卖出5, 45, DRAWNULL)     COLORRED;
+NOTEXT_4 :  40 COLORRED  LINETHICK1;
+_强势卖出1 : IF(强势卖出1=1, 41, DRAWNULL)     COLORGREEN;
+_强势卖出2 : IF(强势卖出2=1, 42, DRAWNULL)     COLORMAGENTA;
+_强势卖出3 : IF(强势卖出3=1, 43, DRAWNULL)     COLORLIRED;
+_强势卖出4 : IF(强势卖出4=1, 44, DRAWNULL)     COLORRED;
+_强势卖出5 : IF(强势卖出5=1, 45, DRAWNULL)     COLORYELLOW;  { 上影大阴大绿棒子 }
 
-NOTEXT_5 := 50, COLORBLUE LINETHICK1;
-NOTEXT_左侧卖1 : IF(左侧卖1, 52, DRAWNULL)     COLORBLUE;
-NOTEXT_左侧卖2 : IF(左侧卖2, 55, DRAWNULL)     COLORBLUE;
-NOTEXT_左侧卖3 : IF(左侧卖3, 58, DRAWNULL)     COLORBLUE;
+NOTEXT_5 : 50 COLORBLUE LINETHICK1;
+_左侧卖1 : IF(左侧卖1=1, 52, DRAWNULL)     COLORGREEN;
+_左侧卖2 : IF(左侧卖2=1, 55, DRAWNULL)     COLORMAGENTA;
+_左侧卖3 : IF(左侧卖3=1, 58, DRAWNULL)     COLORCYAN;
 
-NOTEXT_6 := 60, COLORCYAN LINETHICK1;
-NOTEXT_右侧卖1 : IF(右侧卖1, 62, DRAWNULL)     COLORCYAN;
-NOTEXT_右侧卖2 : IF(右侧卖2, 64, DRAWNULL)     COLORCYAN;
-NOTEXT_右侧卖3 : IF(右侧卖3, 66, DRAWNULL)     COLORCYAN;
-NOTEXT_右侧卖4 : IF(右侧卖4, 68, DRAWNULL)     COLORCYAN;
+NOTEXT_6 : 60 COLORCYAN LINETHICK1;
+_右侧卖1 : IF(右侧卖1=1, 62, DRAWNULL)     COLORGREEN;
+_右侧卖2 : IF(右侧卖2=1, 64, DRAWNULL)     COLORMAGENTA;
+_右侧卖3 : IF(右侧卖3=1, 66, DRAWNULL)     COLORBLUE;
+_右侧卖4 : IF(右侧卖4=1, 68, DRAWNULL)     COLORCYAN;
+
+NOTEXT_7 : 70 COLORWHITE LINETHICK1;
