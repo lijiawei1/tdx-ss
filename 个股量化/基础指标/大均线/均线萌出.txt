@@ -8,7 +8,7 @@ MA200:=IF(MA(C,200)=DRAWNULL, 0, MA(C,200));
 
 
 
-
+{缺少均线斜率判断}
 
 均线萌出 :   ( C>=MA10 AND MA10>=MA20 AND MA20>=MA50 AND MA50>=MA100 AND MA50>=MA200 )
 

@@ -31,10 +31,12 @@ NOT(牛熊线_空)   AND   中期池子       COLORBLUE DOTLINE;
 牛熊线_空 :=  C<牛熊线   AND   牛熊线<REF(牛熊线,1)   AND   决策线<牛熊线;
 
 
-
+{洋红色虚线}
     决策线_多    AND                          中期池子       COLORMAGENTA DOTLINE;
+
+{蓝色虚线}
 NOT(决策线_多)   AND   NOT(牛熊线_空)   AND   中期池子       COLORBLUE    DOTLINE;
                            牛熊线_空    AND   中期池子       COLORCYAN;
-
+{青色实线}
 ( 回踩MA(100) || 回踩MA(120) || 回踩MA(200) || 回踩MA(250) )
                                         AND   中期池子       COLORCYAN;

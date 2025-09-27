@@ -13,3 +13,16 @@
 {7,8}
 个股月多标记: EXTDATA_USER(11,0) = 1;
 板块月多标记: EXTDATA_USER(12,0) = 1;
+
+{9}
+板块左侧试仓  : EXTDATA_USER(41, 0) = 1;
+{10}
+板块左侧买    : EXTDATA_USER(41, 0) = 2;
+{11}
+板块右侧买    : EXTDATA_USER(41, 0) = 3;
+{12}
+板块强势卖出  : EXTDATA_USER(41, 0) = 4;
+{13}
+板块左侧卖    : EXTDATA_USER(41, 0) = 5;
+{14}
+板块右侧卖    : EXTDATA_USER(41, 0) = 6;

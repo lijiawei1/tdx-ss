@@ -1,0 +1,55 @@
+RPS10 := TOOLS_RPS.RPS10;
+RPS20 := TOOLS_RPS.RPS20;
+RPS50 := TOOLS_RPS.RPS50;
+RPS120:= TOOLS_RPS.RPS120;
+RPS250:= TOOLS_RPS.RPS250;
+
+MA5  :=MA(C, 5);
+MA10 :=MA(C,10);
+MA20 :=MA(C,20);
+MA50 :=IF(MA(C, 50)=DRAWNULL, 0, MA(C, 50));
+MA100:=IF(MA(C,100)=DRAWNULL, 0, MA(C,100));
+MA120:=IF(MA(C,120)=DRAWNULL, 0, MA(C,120));
+MA150:=IF(MA(C,150)=DRAWNULL, 0, MA(C,150));
+MA200:=IF(MA(C,200)=DRAWNULL, 0, MA(C,200));
+MA250:=IF(MA(C,250)=DRAWNULL, 0, MA(C,250));
+
+
+月线反转 : YXFZ66.YXFZ;
+
+距月线反转天数 := IF(BARSLAST(月线反转) = DRAWNULL, 999, BARSLAST(月线反转)), COLORC080FF NODRAW;
+
+{----二阶段----
+增强验证：建议补充网页9的成长性验证：净利润同比>30% AND 毛利率环比增长>5% }
+
+二阶段: C > MA50 AND MA50 > MA150 AND MA50 > MA200 AND (MA100 > MA200 || MA150 > MA200 || MA100 > MA250 || MA150 > MA250)
+
+    AND MA200 > REF(MA200, 20)     { 200日均线至少上涨1个月，大多数情况下，上涨4-5个月更好 }
+    AND C/LLV(L, 250) >= 1.3    { 当前价比最后一年最低股价到少高30% }
+    AND C/HHV(H, 258) >= 0.85   { 当前价至少在最近一年最高价的75%以内，距离最高价越近越好 }
+    AND RPS50 >= 90               { RPS排名 > 90 }
+
+    OR (C>MA10 AND MA10>MA20 AND MA20>MA50 AND MA50>MA100 AND MA100>MA200 AND MA20>REF(MA20, 20) AND MA50>REF(MA50, 15) AND MA100>REF(MA100, 10) AND MA200>REF(MA200, 5) AND C/LLV(L, 250) >= 1.3 AND C/HHV(H, 250) >= 0.85)
+    OR (MA250=0              AND C>MA20    AND MA10>MA20  AND MA20>MA50   AND MA20>REF(MA20,10)  AND MA50>REF(MA50, 5)  AND C/LLV(L,250)>=1.3    AND C/HHV(H, 250)>=0.85)
+
+    ,COLORFF00FF NODRAW;
+
+距二阶段天数 :=IF(BARSLAST(二阶段)=DRAWNULL,999,BARSLAST(二阶段)) ,COLORC080FF NODRAW;
+
+{ -----------------------------------------------------
+
+操作建议：
+配合网页10的仓位管理策略：初始建仓30%，突破MA50加仓至50%
+
+四、实战应用要点
+买点确认
+月线反转：突破年线后回踩MA50不破（参考网页6的"杯柄形态"）
+二阶段：MA20与MA50金叉且放量（网页11的量价配合标准）
+风险控制
+动态止损：跌破MA20且3日未收回（网页10的移动止损策略）
+异常波动熔断：单日振幅>15%时减仓50%（网页7的极端行情应对）
+特殊场景处理
+次新股：上市<250日标的需禁用年线条件，改用MA120替代（网页10的新股策略）
+机构重仓股：北向持仓>5%时放宽RPS阈值至90（网页9的机构票弹性规则
+----------------------------------------------------- }
+一二阶段 : 距月线反转天数<20 OR 距二阶段天数<50 OR (COUNT(RPS50>=87,10)>=5 || COUNT(RPS120>=90,15)>=10 || COUNT(RPS250>=95,20)>=15);
