@@ -1,3 +1,5 @@
+{ 趋势理念：多周期共振，长线保护短线 }
+
 MA20 :=   MA(C,20);
 MA50 :=IF(MA(C, 50)=DRAWNULL, 0, MA(C, 50));
 MA100:=IF(MA(C,100)=DRAWNULL, 0, MA(C,100));

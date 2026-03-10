@@ -1,11 +1,11 @@
 { -------------------------------------------------- 大盘 - 牛/熊 }
 牛熊状态 :    大盘量化.牛熊状态     NODRAW;
 
-牛       :=   牛熊状态=4  AND  SSF_MA20预多;
+牛       :   牛熊状态=4  AND  SSF_MA20预多 NODRAW;
 {牛市中继在极值情况下很难SSF_MA20预多}
 牛市中继 :   牛熊状态=3  {AND  SSF_MA20预多} NODRAW;
-熊       :=   牛熊状态=2;
-熊市中继 :=   牛熊状态=1;
+熊       :   牛熊状态=2 NODRAW;
+熊市中继 :   牛熊状态=1 NODRAW;
 
 
 
@@ -62,14 +62,14 @@ CON_3_3 :   月多_调整幅度2 <  -85      COLORWHITE NODRAW;
 调整幅度  :   CON_3_1   ||   CON_3_2   ||   CON_3_3     COLORCYAN DOTLINE;
 
 
-CON_4_1 :   CON_1  AND  新低天数       >  50      COLORWHITE NODRAW;
-CON_4_2 :   CON_1  AND  MA50_调整天数2 > 100      COLORWHITE NODRAW;
-CON_4_3 :   CON_1  AND  月多_调整天数2 >  70      COLORWHITE NODRAW;
+CON_4_1 :   月多冰点  AND  新低天数       >  50      COLORWHITE NODRAW;
+CON_4_2 :   月多冰点  AND  MA50_调整天数2 > 100      COLORWHITE NODRAW;
+CON_4_3 :   月多冰点  AND  月多_调整天数2 >  70      COLORWHITE NODRAW;
 调整天数   :   CON_4_1   ||   CON_4_2   ||   CON_4_3     COLORBROWN DOTLINE;
 
 
 
-CON_NUM :   月多冰点 + 新低冰点 + 调整到位 + 调整天数     NODRAW;
+CON_NUM :   月多冰点 + 新低冰点 + 调整幅度 + 调整天数     NODRAW;
 
 
 {
